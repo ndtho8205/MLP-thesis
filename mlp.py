@@ -1,6 +1,7 @@
 """MLP model.
 """
 import os
+import shutil
 import logging
 
 import numpy as np
@@ -17,7 +18,7 @@ class MLP:
     LEARNING_RATE = 0.01
     TRAINING_EPOCHS = 500
     BATCH_SIZE = 100
-    DISPLAY_STEP = 1
+    DISPLAY_STEP = 50
 
     # Network Parameters
     N_INPUT = 512
@@ -34,9 +35,9 @@ class MLP:
         self.train_log_path = './logs/train'
         self.validate_log_path = './logs/validate'
 
-        if tf.gfile.Exists(self.log_path):
-            tf.gfile.DeleteRecursively(self.log_path)
-            tf.gfile.MakeDirs(self.log_path)
+        if os.path.exists(self.log_path):
+            shutil.rmtree(self.log_path)
+            os.makedirs(self.log_path)
 
     def load(self):
         """Load the model."""
@@ -112,16 +113,18 @@ class MLP:
                     avg_loss += train_loss / total_batch
 
                     # save summary
-                    print('Train: {:.9f} - {:.3f}'.format(train_loss, train_accuracy))
                     train_writer.add_summary(train_summary, step)
+                    if step % self.DISPLAY_STEP == 0:
+                        print('Train: {:.9f} - {:.3f}'.format(train_loss, train_accuracy))
                     if X_val is not None and y_val is not None:
                         validate_summary, validate_loss, validate_accuracy = self.sess.run(
                             [merged, loss, accuracy], feed_dict={
                                 'X:0': X_val,
                                 'y:0': y_val,
                             })
-                        print('Validate: {:.9f} - {:.3f}'.format(validate_loss, validate_accuracy))
                         validate_writer.add_summary(validate_summary, step)
+                        if step % self.DISPLAY_STEP == 0:
+                            print('Validate: {:.9f} - {:.3f}'.format(validate_loss, validate_accuracy))
                     step += 1
 
                 # display progress
