@@ -21,7 +21,7 @@ def main(args):
 
 
 def train():
-    mlp = MLP(MLP_MODEL_PATH)
+    mlp = MLP()
     mlp.fit(
         os.path.join(DATA_PATH, './x_train_512.pkl'), os.path.join(DATA_PATH, './y_train_512.pkl'),
         os.path.join(DATA_PATH, './x_test_512.pkl'), os.path.join(DATA_PATH, './y_test_512.pkl'))

@@ -13,24 +13,23 @@ from utils import load_model
 class MLP:
     """MLP
     """
-    MODEL_CHECKPOINT_NAME = 'mlp_model'
+    SAVED_MODEL_PATH = './models/mlp/'
+    MODEL_NAME = 'mlpThesis'
     N_CLASSES = 2
     LEARNING_RATE = 0.01
     TRAINING_EPOCHS = 500
     BATCH_SIZE = 100
-    DISPLAY_STEP = 50
+    DISPLAY_STEP = BATCH_SIZE // 10
 
     # Network Parameters
     N_INPUT = 512
     N_HIDDEN_1 = 64
     N_HIDDEN_2 = 32
 
-    def __init__(self, model_path):
+    def __init__(self):
         super().__init__()
         self.sess = None
-        self.model_path = model_path
 
-        self.model_path = os.path.join(model_path, self.MODEL_CHECKPOINT_NAME)
         self.log_path = './logs'
         self.train_log_path = './logs/train'
         self.validate_log_path = './logs/validate'
@@ -41,11 +40,11 @@ class MLP:
 
     def load(self):
         """Load the model."""
-        if self.model_path is not None:
+        if self.SAVED_MODEL_PATH is not None:
             with tf.Graph().as_default():
                 self.sess = tf.Session()
                 self._neural_networks_construction()
-                ckpt = tf.train.get_checkpoint_state(self.model_path)
+                ckpt = tf.train.get_checkpoint_state(self.SAVED_MODEL_PATH)
                 loader = tf.train.Saver()
                 loader.restore(self.sess, ckpt.model_checkpoint_path)
 
@@ -75,11 +74,41 @@ class MLP:
             # training
             logging.info('Starting training...')
             self._train(X_train, y_train, loss, optimizer, accuracy, X_val, y_val)
-            saver.save(self.sess, self.model_path)
+            saver.save(self.sess, self.SAVED_MODEL_PATH + self.MODEL_NAME + '.ckpt')
+
+            logging.info('Saving model...')
+            self.write_graph()
+
             logging.info('End of training')
+
+    def write_graph(self):
+        tf.train.write_graph(self.sess.graph_def, self.SAVED_MODEL_PATH, self.MODEL_NAME + '.pbtxt')
+        tf.train.write_graph(self.sess.graph_def, self.SAVED_MODEL_PATH, self.MODEL_NAME + '.pb', as_text=False)
+
+        self.freeze_graph()
+
+    def freeze_graph(self):
+        from tensorflow.python.tools import freeze_graph
+        # Freeze the graph
+        input_graph = self.SAVED_MODEL_PATH + self.MODEL_NAME + '.pb'
+        input_saver = ""
+        input_binary = True
+        input_checkpoint = self.SAVED_MODEL_PATH + self.MODEL_NAME + '.ckpt'
+        output_node_names = 'y_pred'
+        restore_op_name = 'save/restore_all'
+        filename_tensor_name = 'save/Const:0'
+        output_graph = self.SAVED_MODEL_PATH + 'frozen_' + self.MODEL_NAME + '.pb'
+        clear_devices = True
+        initializer_nodes = ""
+        variable_names_blacklist = ""
+
+        freeze_graph.freeze_graph(input_graph, input_saver, input_binary, input_checkpoint, output_node_names,
+                                  restore_op_name, filename_tensor_name, output_graph, clear_devices, initializer_nodes,
+                                  variable_names_blacklist)
 
     def _train(self, X, y, loss, optimizer, accuracy, X_val=None, y_val=None):
         y = np.asarray(y, dtype=np.int64)
+
         with self.sess.as_default():
             # writer
             merged = tf.summary.merge_all()
@@ -113,31 +142,30 @@ class MLP:
                     avg_loss += train_loss / total_batch
 
                     # save summary
-                    train_writer.add_summary(train_summary, step)
                     if step % self.DISPLAY_STEP == 0:
+                        train_writer.add_summary(train_summary, step)
                         print('Train: {:.9f} - {:.3f}'.format(train_loss, train_accuracy))
-                    if X_val is not None and y_val is not None:
-                        validate_summary, validate_loss, validate_accuracy = self.sess.run(
-                            [merged, loss, accuracy], feed_dict={
-                                'X:0': X_val,
-                                'y:0': y_val,
-                            })
-                        validate_writer.add_summary(validate_summary, step)
-                        if step % self.DISPLAY_STEP == 0:
+                        if X_val is not None and y_val is not None:
+                            validate_summary, validate_loss, validate_accuracy = self.sess.run(
+                                [merged, loss, accuracy], feed_dict={
+                                    'X:0': X_val,
+                                    'y:0': y_val,
+                                })
+                            validate_writer.add_summary(validate_summary, step)
                             print('Validate: {:.9f} - {:.3f}'.format(validate_loss, validate_accuracy))
                     step += 1
 
-                # display progress
-                if epoch % self.DISPLAY_STEP == 0:
+                    # display progress
+                    # if epoch % self.DISPLAY_STEP == 0:
                     # print('Epoch: {}\tLoss: {:.9f}\tTraining accuracy: {:.3f}'.format(
                     # epoch + 1, avg_loss, train_accuracy))
-                    if X_val is not None and y_val is not None:
-                        validate_loss, validate_accuracy = self.sess.run(
-                            [loss, accuracy], feed_dict={
-                                'X:0': X_val,
-                                'y:0': y_val,
-                            })
-                        # print('Validate: loss: {:.3f}\taccuracy: {:.3f}'.format(validate_loss, validate_accuracy))
+                    # if X_val is not None and y_val is not None:
+                    #    validate_loss, validate_accuracy = self.sess.run(
+                    #        [loss, accuracy], feed_dict={
+                    #            'X:0': X_val,
+                    #            'y:0': y_val,
+                    #        })
+                    # print('Validate: loss: {:.3f}\taccuracy: {:.3f}'.format(validate_loss, validate_accuracy))
 
             train_writer.close()
             validate_writer.close()
@@ -174,7 +202,7 @@ class MLP:
         optimizer = tf.train.AdamOptimizer(learning_rate=self.LEARNING_RATE).minimize(loss)
 
         # accuracy
-        pred = tf.argmax(tf.nn.softmax(model), 1, name='pred')
+        pred = tf.argmax(tf.nn.softmax(model), 1, name='y_pred')
         correct_prediction = tf.equal(pred, y, name='correct_prediction')
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32), name='accuracy')
         tf.summary.scalar("accuracy_function", accuracy)
