@@ -230,13 +230,13 @@ class MLP:
     def predict(self, X):
         """Perform recognition on samples in X."""
         X = np.asarray(X, dtype=np.float32)
-        labels_index = self.sess.run('pred:0', {'X:0': X})
+        labels_index = self.sess.run('y_pred:0', {'X:0': X})
         logging.info('Predict: {}'.format(labels_index))
         return labels_index[0]
 
     def predict_proba(self, X):
         """Compute probabilities of possible outcomes for samples in X."""
         X = np.asarray(X, dtype=np.float32)
-        labels_index = self.sess.run('pred:0', {'X:0': X})
+        labels_index = self.sess.run('y_pred:0', {'X:0': X})
         logging.info('Predict: {}'.format(labels_index))
         return labels_index[0], 0.
