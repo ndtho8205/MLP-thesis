@@ -27,6 +27,12 @@ def train():
         os.path.join(DATA_PATH, './x_test_512.pkl'), os.path.join(DATA_PATH, './y_test_512.pkl'))
 
 
+def predict(X):
+    mlp = MLP()
+    mlp.load()
+    return mlp.predict([X])
+
+
 def parse_args():
     """Parse input arguments."""
     import argparse

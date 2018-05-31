@@ -34,22 +34,21 @@ class MLP:
         self.train_log_path = './logs/train'
         self.validate_log_path = './logs/validate'
 
+    def load(self):
+        """Load the model."""
+        with tf.Graph().as_default():
+            self.sess = tf.Session()
+            self._neural_networks_construction()
+            ckpt = tf.train.get_checkpoint_state(self.SAVED_MODEL_PATH)
+            loader = tf.train.Saver()
+            loader.restore(self.sess, ckpt.model_checkpoint_path)
+
+    def fit(self, X_path, y_path, X_val_path=None, y_val_path=None):
+        """Fit the model according to the given training data."""
         if os.path.exists(self.log_path):
             shutil.rmtree(self.log_path)
             os.makedirs(self.log_path)
 
-    def load(self):
-        """Load the model."""
-        if self.SAVED_MODEL_PATH is not None:
-            with tf.Graph().as_default():
-                self.sess = tf.Session()
-                self._neural_networks_construction()
-                ckpt = tf.train.get_checkpoint_state(self.SAVED_MODEL_PATH)
-                loader = tf.train.Saver()
-                loader.restore(self.sess, ckpt.model_checkpoint_path)
-
-    def fit(self, X_path, y_path, X_val_path=None, y_val_path=None):
-        """Fit the model according to the given training data."""
         logging.info('Training data loaded')
         # load training data
         X_train = load_model.load(X_path)
