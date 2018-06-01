@@ -15,7 +15,7 @@ node {
           size: -1
         }
         dim {
-          size: 512
+          size: 6
         }
       }
     }
@@ -60,7 +60,7 @@ node {
             size: 2
           }
         }
-        tensor_content: "\000\002\000\000@\000\000\000"
+        tensor_content: "\006\000\000\000@\000\000\000"
       }
     }
   }
@@ -180,7 +180,7 @@ node {
     value {
       shape {
         dim {
-          size: 512
+          size: 6
         }
         dim {
           size: 64
@@ -2281,39 +2281,7 @@ node {
   }
 }
 node {
-  name: "w_h1/Adam/Initializer/zeros/shape_as_tensor"
-  op: "Const"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@w_h1"
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "\000\002\000\000@\000\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "w_h1/Adam/Initializer/zeros/Const"
+  name: "w_h1/Adam/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
@@ -2335,35 +2303,15 @@ node {
       tensor {
         dtype: DT_FLOAT
         tensor_shape {
+          dim {
+            size: 6
+          }
+          dim {
+            size: 64
+          }
         }
         float_val: 0.0
       }
-    }
-  }
-}
-node {
-  name: "w_h1/Adam/Initializer/zeros"
-  op: "Fill"
-  input: "w_h1/Adam/Initializer/zeros/shape_as_tensor"
-  input: "w_h1/Adam/Initializer/zeros/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@w_h1"
-      }
-    }
-  }
-  attr {
-    key: "index_type"
-    value {
-      type: DT_INT32
     }
   }
 }
@@ -2395,7 +2343,7 @@ node {
     value {
       shape {
         dim {
-          size: 512
+          size: 6
         }
         dim {
           size: 64
@@ -2462,39 +2410,7 @@ node {
   }
 }
 node {
-  name: "w_h1/Adam_1/Initializer/zeros/shape_as_tensor"
-  op: "Const"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@w_h1"
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "\000\002\000\000@\000\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "w_h1/Adam_1/Initializer/zeros/Const"
+  name: "w_h1/Adam_1/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
@@ -2516,35 +2432,15 @@ node {
       tensor {
         dtype: DT_FLOAT
         tensor_shape {
+          dim {
+            size: 6
+          }
+          dim {
+            size: 64
+          }
         }
         float_val: 0.0
       }
-    }
-  }
-}
-node {
-  name: "w_h1/Adam_1/Initializer/zeros"
-  op: "Fill"
-  input: "w_h1/Adam_1/Initializer/zeros/shape_as_tensor"
-  input: "w_h1/Adam_1/Initializer/zeros/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@w_h1"
-      }
-    }
-  }
-  attr {
-    key: "index_type"
-    value {
-      type: DT_INT32
     }
   }
 }
@@ -2576,7 +2472,7 @@ node {
     value {
       shape {
         dim {
-          size: 512
+          size: 6
         }
         dim {
           size: 64
@@ -2643,39 +2539,7 @@ node {
   }
 }
 node {
-  name: "w_out/Adam/Initializer/zeros/shape_as_tensor"
-  op: "Const"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@w_out"
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "@\000\000\000\002\000\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "w_out/Adam/Initializer/zeros/Const"
+  name: "w_out/Adam/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
@@ -2697,35 +2561,15 @@ node {
       tensor {
         dtype: DT_FLOAT
         tensor_shape {
+          dim {
+            size: 64
+          }
+          dim {
+            size: 2
+          }
         }
         float_val: 0.0
       }
-    }
-  }
-}
-node {
-  name: "w_out/Adam/Initializer/zeros"
-  op: "Fill"
-  input: "w_out/Adam/Initializer/zeros/shape_as_tensor"
-  input: "w_out/Adam/Initializer/zeros/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@w_out"
-      }
-    }
-  }
-  attr {
-    key: "index_type"
-    value {
-      type: DT_INT32
     }
   }
 }
@@ -2824,39 +2668,7 @@ node {
   }
 }
 node {
-  name: "w_out/Adam_1/Initializer/zeros/shape_as_tensor"
-  op: "Const"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@w_out"
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "@\000\000\000\002\000\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "w_out/Adam_1/Initializer/zeros/Const"
+  name: "w_out/Adam_1/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
@@ -2878,35 +2690,15 @@ node {
       tensor {
         dtype: DT_FLOAT
         tensor_shape {
+          dim {
+            size: 64
+          }
+          dim {
+            size: 2
+          }
         }
         float_val: 0.0
       }
-    }
-  }
-}
-node {
-  name: "w_out/Adam_1/Initializer/zeros"
-  op: "Fill"
-  input: "w_out/Adam_1/Initializer/zeros/shape_as_tensor"
-  input: "w_out/Adam_1/Initializer/zeros/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@w_out"
-      }
-    }
-  }
-  attr {
-    key: "index_type"
-    value {
-      type: DT_INT32
     }
   }
 }
@@ -3005,39 +2797,7 @@ node {
   }
 }
 node {
-  name: "b_b1/Adam/Initializer/zeros/shape_as_tensor"
-  op: "Const"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@b_b1"
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 1
-          }
-        }
-        int_val: 64
-      }
-    }
-  }
-}
-node {
-  name: "b_b1/Adam/Initializer/zeros/Const"
+  name: "b_b1/Adam/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
@@ -3059,35 +2819,12 @@ node {
       tensor {
         dtype: DT_FLOAT
         tensor_shape {
+          dim {
+            size: 64
+          }
         }
         float_val: 0.0
       }
-    }
-  }
-}
-node {
-  name: "b_b1/Adam/Initializer/zeros"
-  op: "Fill"
-  input: "b_b1/Adam/Initializer/zeros/shape_as_tensor"
-  input: "b_b1/Adam/Initializer/zeros/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@b_b1"
-      }
-    }
-  }
-  attr {
-    key: "index_type"
-    value {
-      type: DT_INT32
     }
   }
 }
@@ -3183,39 +2920,7 @@ node {
   }
 }
 node {
-  name: "b_b1/Adam_1/Initializer/zeros/shape_as_tensor"
-  op: "Const"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@b_b1"
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 1
-          }
-        }
-        int_val: 64
-      }
-    }
-  }
-}
-node {
-  name: "b_b1/Adam_1/Initializer/zeros/Const"
+  name: "b_b1/Adam_1/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
@@ -3237,35 +2942,12 @@ node {
       tensor {
         dtype: DT_FLOAT
         tensor_shape {
+          dim {
+            size: 64
+          }
         }
         float_val: 0.0
       }
-    }
-  }
-}
-node {
-  name: "b_b1/Adam_1/Initializer/zeros"
-  op: "Fill"
-  input: "b_b1/Adam_1/Initializer/zeros/shape_as_tensor"
-  input: "b_b1/Adam_1/Initializer/zeros/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@b_b1"
-      }
-    }
-  }
-  attr {
-    key: "index_type"
-    value {
-      type: DT_INT32
     }
   }
 }
@@ -3361,39 +3043,7 @@ node {
   }
 }
 node {
-  name: "b_out/Adam/Initializer/zeros/shape_as_tensor"
-  op: "Const"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@b_out"
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 1
-          }
-        }
-        int_val: 2
-      }
-    }
-  }
-}
-node {
-  name: "b_out/Adam/Initializer/zeros/Const"
+  name: "b_out/Adam/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
@@ -3415,35 +3065,12 @@ node {
       tensor {
         dtype: DT_FLOAT
         tensor_shape {
+          dim {
+            size: 2
+          }
         }
         float_val: 0.0
       }
-    }
-  }
-}
-node {
-  name: "b_out/Adam/Initializer/zeros"
-  op: "Fill"
-  input: "b_out/Adam/Initializer/zeros/shape_as_tensor"
-  input: "b_out/Adam/Initializer/zeros/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@b_out"
-      }
-    }
-  }
-  attr {
-    key: "index_type"
-    value {
-      type: DT_INT32
     }
   }
 }
@@ -3539,39 +3166,7 @@ node {
   }
 }
 node {
-  name: "b_out/Adam_1/Initializer/zeros/shape_as_tensor"
-  op: "Const"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@b_out"
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 1
-          }
-        }
-        int_val: 2
-      }
-    }
-  }
-}
-node {
-  name: "b_out/Adam_1/Initializer/zeros/Const"
+  name: "b_out/Adam_1/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
@@ -3593,35 +3188,12 @@ node {
       tensor {
         dtype: DT_FLOAT
         tensor_shape {
+          dim {
+            size: 2
+          }
         }
         float_val: 0.0
       }
-    }
-  }
-}
-node {
-  name: "b_out/Adam_1/Initializer/zeros"
-  op: "Fill"
-  input: "b_out/Adam_1/Initializer/zeros/shape_as_tensor"
-  input: "b_out/Adam_1/Initializer/zeros/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@b_out"
-      }
-    }
-  }
-  attr {
-    key: "index_type"
-    value {
-      type: DT_INT32
     }
   }
 }
@@ -3965,10 +3537,10 @@ node {
   op: "Mul"
   input: "beta1_power/read"
   input: "Adam/beta1"
-  input: "^Adam/update_w_h1/ApplyAdam"
-  input: "^Adam/update_w_out/ApplyAdam"
   input: "^Adam/update_b_b1/ApplyAdam"
   input: "^Adam/update_b_out/ApplyAdam"
+  input: "^Adam/update_w_h1/ApplyAdam"
+  input: "^Adam/update_w_out/ApplyAdam"
   attr {
     key: "T"
     value {
@@ -4021,10 +3593,10 @@ node {
   op: "Mul"
   input: "beta2_power/read"
   input: "Adam/beta2"
-  input: "^Adam/update_w_h1/ApplyAdam"
-  input: "^Adam/update_w_out/ApplyAdam"
   input: "^Adam/update_b_b1/ApplyAdam"
   input: "^Adam/update_b_out/ApplyAdam"
+  input: "^Adam/update_w_h1/ApplyAdam"
+  input: "^Adam/update_w_out/ApplyAdam"
   attr {
     key: "T"
     value {
@@ -4075,12 +3647,12 @@ node {
 node {
   name: "Adam"
   op: "NoOp"
-  input: "^Adam/update_w_h1/ApplyAdam"
-  input: "^Adam/update_w_out/ApplyAdam"
-  input: "^Adam/update_b_b1/ApplyAdam"
-  input: "^Adam/update_b_out/ApplyAdam"
   input: "^Adam/Assign"
   input: "^Adam/Assign_1"
+  input: "^Adam/update_b_b1/ApplyAdam"
+  input: "^Adam/update_b_out/ApplyAdam"
+  input: "^Adam/update_w_h1/ApplyAdam"
+  input: "^Adam/update_w_out/ApplyAdam"
 }
 node {
   name: "Softmax"
@@ -4963,6 +4535,10 @@ node {
   op: "NoOp"
   input: "^save/Assign"
   input: "^save/Assign_1"
+  input: "^save/Assign_10"
+  input: "^save/Assign_11"
+  input: "^save/Assign_12"
+  input: "^save/Assign_13"
   input: "^save/Assign_2"
   input: "^save/Assign_3"
   input: "^save/Assign_4"
@@ -4971,10 +4547,6 @@ node {
   input: "^save/Assign_7"
   input: "^save/Assign_8"
   input: "^save/Assign_9"
-  input: "^save/Assign_10"
-  input: "^save/Assign_11"
-  input: "^save/Assign_12"
-  input: "^save/Assign_13"
 }
 node {
   name: "Merge/MergeSummary"
@@ -4991,20 +4563,20 @@ node {
 node {
   name: "init"
   op: "NoOp"
-  input: "^w_h1/Assign"
-  input: "^w_out/Assign"
+  input: "^b_b1/Adam/Assign"
+  input: "^b_b1/Adam_1/Assign"
   input: "^b_b1/Assign"
+  input: "^b_out/Adam/Assign"
+  input: "^b_out/Adam_1/Assign"
   input: "^b_out/Assign"
   input: "^beta1_power/Assign"
   input: "^beta2_power/Assign"
   input: "^w_h1/Adam/Assign"
   input: "^w_h1/Adam_1/Assign"
+  input: "^w_h1/Assign"
   input: "^w_out/Adam/Assign"
   input: "^w_out/Adam_1/Assign"
-  input: "^b_b1/Adam/Assign"
-  input: "^b_b1/Adam_1/Assign"
-  input: "^b_out/Adam/Assign"
-  input: "^b_out/Adam_1/Assign"
+  input: "^w_out/Assign"
 }
 versions {
   producer: 26

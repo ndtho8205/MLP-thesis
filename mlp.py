@@ -22,7 +22,7 @@ class MLP:
     DISPLAY_STEP = BATCH_SIZE // 10
 
     # Network Parameters
-    N_INPUT = 512
+    N_INPUT = 6
     N_HIDDEN_1 = 64
     N_HIDDEN_2 = 32
 
@@ -43,22 +43,11 @@ class MLP:
             loader = tf.train.Saver()
             loader.restore(self.sess, ckpt.model_checkpoint_path)
 
-    def fit(self, X_path, y_path, X_val_path=None, y_val_path=None):
+    def fit(self, X_train, y_train, X_val=None, y_val=None):
         """Fit the model according to the given training data."""
         if os.path.exists(self.log_path):
             shutil.rmtree(self.log_path)
             os.makedirs(self.log_path)
-
-        logging.info('Training data loaded')
-        # load training data
-        X_train = load_model.load(X_path)
-        y_train = load_model.load(y_path)
-        X_val = y_val = None
-        if X_val_path is not None and y_val_path is not None:
-            X_val = load_model.load(X_val_path)
-            y_val = load_model.load(y_val_path)
-
-        logging.info('Training data loaded')
 
         with tf.Graph().as_default():
             self.sess = tf.Session()
