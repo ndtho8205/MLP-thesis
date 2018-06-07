@@ -16,15 +16,15 @@ class MLP:
     SAVED_MODEL_PATH = './models/mlp/'
     MODEL_NAME = 'mlpThesis'
     N_CLASSES = 2
-    LEARNING_RATE = 0.01
-    TRAINING_EPOCHS = 500
+    LEARNING_RATE = 0.00006
+    TRAINING_EPOCHS = 1000
     BATCH_SIZE = 100
     DISPLAY_STEP = BATCH_SIZE // 10
 
     # Network Parameters
     N_INPUT = 6
-    N_HIDDEN_1 = 64
-    N_HIDDEN_2 = 32
+    N_HIDDEN_1 = 12
+    N_HIDDEN_2 = 9
 
     def __init__(self):
         super().__init__()
@@ -162,7 +162,7 @@ class MLP:
         # learning variables
         n_input = self.N_INPUT
         n_hidden_1 = self.N_HIDDEN_1
-        # n_hidden_2 = self.N_HIDDEN_2
+        n_hidden_2 = self.N_HIDDEN_2
         n_classes = self.N_CLASSES
 
         X = tf.placeholder(tf.float32, [None, n_input], name='X')
@@ -170,13 +170,15 @@ class MLP:
 
         weights = {
             'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1]), name='w_h1'),
-            'out': tf.Variable(tf.random_normal([n_hidden_1, n_classes]), name='w_out')
+            'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2]), name='w_h2'),
+            'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes]), name='w_out')
         }
         # self._variable_summaries(weights['h1'])
         # self._variable_summaries(weights['out'])
 
         biases = {
             'b1': tf.Variable(tf.random_normal([n_hidden_1]), name='b_b1'),
+            'b2': tf.Variable(tf.random_normal([n_hidden_2]), name='b_b2'),
             'out': tf.Variable(tf.random_normal([n_classes]), name='b_out')
         }
 
@@ -199,8 +201,8 @@ class MLP:
 
     def _mlp(self, X, weights, biases):
         layer_1 = tf.nn.relu(tf.add(tf.matmul(X, weights['h1']), biases['b1']))
-        # layer_2 = tf.nn.relu(tf.add(tf.matmul(layer_1, weights['h2']), biases['b2']))
-        out = tf.matmul(layer_1, weights['out']) + biases['out']
+        layer_2 = tf.nn.relu(tf.add(tf.matmul(layer_1, weights['h2']), biases['b2']))
+        out = tf.matmul(layer_2, weights['out']) + biases['out']
         return out
 
     def _variable_summaries(self, var):
