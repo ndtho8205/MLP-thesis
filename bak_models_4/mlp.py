@@ -113,7 +113,6 @@ class MLP:
             # X, y = shuffle(X, y)
             # training loop
             for epoch in range(self.TRAINING_EPOCHS):
-                X, y = shuffle(X, y)
                 avg_loss = 0.
                 train_accuracy = 0.
                 total_batch = 1 if X.shape[0] < self.BATCH_SIZE else int(X.shape[0] / self.BATCH_SIZE)
