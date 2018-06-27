@@ -17,15 +17,16 @@ class MLP:
     SAVED_MODEL_PATH = './models/mlp/'
     MODEL_NAME = 'mlpThesis'
     N_CLASSES = 2
-    LEARNING_RATE = 0.001
-    TRAINING_EPOCHS = 10
-    BATCH_SIZE = 200
+    LEARNING_RATE = 0.003
+    TRAINING_EPOCHS = 1000
+    BATCH_SIZE = 128
     DISPLAY_STEP = BATCH_SIZE // 10
 
     # Network Parameters
     N_INPUT = 6
-    N_HIDDEN_1 = 32
-    N_HIDDEN_2 = 16
+    N_HIDDEN_1 = 12
+    N_HIDDEN_2 = 8
+    N_HIDDEN_3 = 4
 
     def __init__(self):
         super().__init__()
@@ -165,6 +166,7 @@ class MLP:
         n_input = self.N_INPUT
         n_hidden_1 = self.N_HIDDEN_1
         n_hidden_2 = self.N_HIDDEN_2
+        n_hidden_3 = self.N_HIDDEN_3
         n_classes = self.N_CLASSES
 
         X = tf.placeholder(tf.float32, [None, n_input], name='X')
@@ -173,7 +175,8 @@ class MLP:
         weights = {
             'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1]), name='w_h1'),
             'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2]), name='w_h2'),
-            'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes]), name='w_out')
+            'h3': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_3]), name='w_h3'),
+            'out': tf.Variable(tf.random_normal([n_hidden_3, n_classes]), name='w_out')
         }
         # self._variable_summaries(weights['h1'])
         # self._variable_summaries(weights['out'])
@@ -181,6 +184,7 @@ class MLP:
         biases = {
             'b1': tf.Variable(tf.random_normal([n_hidden_1]), name='b_b1'),
             'b2': tf.Variable(tf.random_normal([n_hidden_2]), name='b_b2'),
+            'b3': tf.Variable(tf.random_normal([n_hidden_3]), name='b_b3'),
             'out': tf.Variable(tf.random_normal([n_classes]), name='b_out')
         }
 
@@ -204,7 +208,8 @@ class MLP:
     def _mlp(self, X, weights, biases):
         layer_1 = tf.nn.relu(tf.add(tf.matmul(X, weights['h1']), biases['b1']))
         layer_2 = tf.nn.relu(tf.add(tf.matmul(layer_1, weights['h2']), biases['b2']))
-        out = tf.matmul(layer_2, weights['out']) + biases['out']
+        layer_3 = tf.nn.relu(tf.add(tf.matmul(layer_2, weights['h3']), biases['b3']))
+        out = tf.matmul(layer_3, weights['out']) + biases['out']
         return out
 
     def _variable_summaries(self, var):
@@ -218,6 +223,14 @@ class MLP:
             tf.summary.scalar('max', tf.reduce_max(var))
             tf.summary.scalar('min', tf.reduce_min(var))
             tf.summary.histogram('histogram', var)
+
+    def compute_test_accuracy(self, X_test, y_test):
+        test_loss, test_accuracy = self.sess.run(
+            ['loss:0', 'accuracy:0'], feed_dict={
+                'X:0': X_test,
+                'y:0': y_test,
+            })
+        print('Test: {} - {}'.format(test_loss, test_accuracy))
 
     def predict(self, X):
         """Perform recognition on samples in X."""
